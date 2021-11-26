@@ -1,0 +1,37 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Hexlet project 2",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DamperX/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "shell"
+  ],
+  "author": "A.Igumnov <gosu_1994@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DamperX/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/DamperX/frontend-project-lvl2#readme",
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  },
+  "private": true,
+  "dependencies": {
+    "commander": "^8.3.0"
+  }
+}
