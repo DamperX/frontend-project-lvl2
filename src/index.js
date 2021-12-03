@@ -8,44 +8,36 @@ const getAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 const getContentFromFile = (filepath) => readFileSync(filepath, 'utf-8');
 
 const compareObjects = (firstObject, secondObject) => {
-  const keysArray = Object.keys({ ...firstObject, ...secondObject });
+  const keysArray = _.union(_.keys(firstObject), _.keys(secondObject));
 
   const result = keysArray.map((key) => {
     if (!_.has(firstObject, key)) {
-      return {
-        key,
-        value: secondObject[key],
-        mod: '+',
-      };
+      return { key, value: secondObject[key], mod: '+' };
     }
 
     if (!_.has(secondObject, key)) {
-      return {
-        key,
-        value: firstObject[key],
-        mod: '-',
-      };
+      return { key, value: firstObject[key], mod: '-' };
     }
 
     if (firstObject[key] === secondObject[key]) {
-      return {
-        key,
-        value: firstObject[key],
-        mod: ' ',
-      };
+      return { key, value: firstObject[key], mod: ' ' };
     }
 
-    return {
-      key,
-      value: {
-        before: firstObject[key],
-        after: secondObject[key],
-      },
-      mod: '+-',
-    };
+    return { key, value: { before: firstObject[key], after: secondObject[key] }, mod: '+-' };
   });
 
   return _.sortBy(result, 'key');
+};
+
+const formatResultToNewArray = (acc, { key, value, mod }) => {
+  if (mod === '+-') {
+    const { before, after } = value;
+    acc.push(` - ${key}: ${before}`);
+    acc.push(` + ${key}: ${after}`);
+  } else {
+    acc.push(` ${mod} ${key}: ${value}`);
+  }
+  return acc;
 };
 
 const genDiff = (filepath1, filepath2) => {
@@ -59,18 +51,9 @@ const genDiff = (filepath1, filepath2) => {
   const secondFileData = JSON.parse(secondFileContent);
 
   const data = compareObjects(firstFileData, secondFileData);
-  const result = data.reduce((acc, item) => {
-    const { key, value, mod } = item;
-
-    if (mod === '+-') {
-      const { before, after } = value;
-      acc.push(` - ${key}: ${before}`);
-      acc.push(` + ${key}: ${after}`);
-    } else {
-      acc.push(` ${mod} ${key}: ${value}`);
-    }
-    return acc;
-  }, []).join('\n');
+  const result = data
+    .reduce(formatResultToNewArray, [])
+    .join('\n');
 
   console.log(`{\n${result}\n}`);
 };
