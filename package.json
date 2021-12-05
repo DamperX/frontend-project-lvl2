@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Hexlet project 2",
   "type": "module",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest",
+    "test:watch": "npx jest --watch"
   },
   "bin": {
     "gendiff": "bin/gendiff.js"
@@ -26,9 +27,15 @@
   },
   "homepage": "https://github.com/DamperX/frontend-project-lvl2#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "babel-jest": "^27.4.2",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3"
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
+    "jest": "^27.4.3"
   },
   "private": true,
   "dependencies": {
