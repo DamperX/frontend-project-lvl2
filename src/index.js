@@ -1,50 +1,13 @@
-import path from 'path';
-import { readFileSync } from 'fs';
-import _ from 'lodash';
-
-const getContentFromFile = (filepath) => readFileSync(path.resolve(filepath), 'utf-8');
-
-const compareObjects = (firstObject, secondObject) => {
-  const keysArray = _.union(_.keys(firstObject), _.keys(secondObject));
-
-  const result = keysArray.map((key) => {
-    if (!_.has(firstObject, key)) {
-      return { key, value: secondObject[key], mod: '+' };
-    }
-
-    if (!_.has(secondObject, key)) {
-      return { key, value: firstObject[key], mod: '-' };
-    }
-
-    if (firstObject[key] === secondObject[key]) {
-      return { key, value: firstObject[key], mod: ' ' };
-    }
-
-    return { key, value: { before: firstObject[key], after: secondObject[key] }, mod: '+-' };
-  });
-
-  return _.sortBy(result, 'key');
-};
-
-const formatResultToNewArray = (acc, { key, value, mod }) => {
-  if (mod === '+-') {
-    const { before, after } = value;
-    acc.push(`  - ${key}: ${before}`);
-    acc.push(`  + ${key}: ${after}`);
-  } else {
-    acc.push(`  ${mod} ${key}: ${value}`);
-  }
-  return acc;
-};
+import compareObjects from './compare.js';
+import formatResultToNewArray from './format.js';
+import parseData from './parsers.js';
+import { getContentFromFile, getExt } from './utils.js';
 
 const genDiff = (filepath1, filepath2) => {
-  const firstFileContent = getContentFromFile(filepath1);
-  const secondFileContent = getContentFromFile(filepath2);
+  const firstFileContent = parseData(getContentFromFile(filepath1), getExt(filepath1));
+  const secondFileContent = parseData(getContentFromFile(filepath2), getExt(filepath2));
 
-  const firstFileData = JSON.parse(firstFileContent);
-  const secondFileData = JSON.parse(secondFileContent);
-
-  const data = compareObjects(firstFileData, secondFileData);
+  const data = compareObjects(firstFileContent, secondFileContent);
   const result = data
     .reduce(formatResultToNewArray, [])
     .join('\n');

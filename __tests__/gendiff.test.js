@@ -18,3 +18,11 @@ test('run gendiff flat', () => {
 
   expect(diff).toBe(result);
 });
+
+test('run gendiff yaml', () => {
+  const file1 = getFixturePath('file1.yaml');
+  const file2 = getFixturePath('file2.yml');
+  const diff = genDiff(file1, file2);
+
+  expect(diff).toBe(result);
+});

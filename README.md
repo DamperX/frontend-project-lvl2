@@ -5,4 +5,4 @@
 
 #### Compare two files
 
-[![demo](https://asciinema.org/a/3CNC7CkFIwk8koDubELcQKSo3.svg)](https://asciinema.org/a/3CNC7CkFIwk8koDubELcQKSo3)
+[![asciicast](https://asciinema.org/a/N2urrRSZfKnVPoxF23TZ5CPvx.svg)](https://asciinema.org/a/N2urrRSZfKnVPoxF23TZ5CPvx)
